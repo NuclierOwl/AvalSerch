@@ -5,7 +5,7 @@
         x:DataType="vm:MainViewModel"
         x:Class="AvalNeroSercher.Views.MainWindow"
         Title="Распознавание цифр с камеры"
-        Width="1000" Height="650">
+        Width="1200" Height="650">
 
     <Window.Resources>
         <converters:BitmapConverter x:Key="BitmapConverter" />
