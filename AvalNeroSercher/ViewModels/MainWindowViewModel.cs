@@ -5,7 +5,6 @@ using AvalNeroSercher.Services;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
-using Emgu.CV;
 using System.Threading.Tasks;
 using System;
 using Avalonia.Platform.Storage;
@@ -15,8 +14,8 @@ namespace AvalNeroSercher.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        private readonly CameraService _cameraService;
-        private readonly Predictor _predictor;
+        private readonly AppController _controller;
+        private readonly ApiHostService _apiHost;
         private bool _disposed;
 
         [ObservableProperty]
@@ -37,71 +36,130 @@ namespace AvalNeroSercher.ViewModels
         [ObservableProperty]
         private Bitmap? _currentFrame;
 
-        // Путь к текущей модели
         [ObservableProperty]
-        private string _modelPath = @"C:\DigitsModel.zip";
+        private ObservableCollection<ModelInfo> _models = new();
 
-        public MainViewModel(CameraService cameraService, Predictor predictor)
+        [ObservableProperty]
+        private ModelInfo? _selectedModel;
+
+        [ObservableProperty]
+        private string _statusMessage = string.Empty;
+
+        [ObservableProperty]
+        private string _apiUrl = string.Empty;
+
+        public MainViewModel(AppController controller, ApiHostService apiHost)
         {
-            _cameraService = cameraService;
-            _predictor = predictor;
+            _controller = controller;
+            _apiHost = apiHost;
 
-            _cameraService.NewFrame += OnNewFrame;
+            _controller.StateChanged += OnControllerStateChanged;
 
-            Cameras = new ObservableCollection<CameraInfo>(_cameraService.GetAvailableCameras());
+            Cameras = new ObservableCollection<CameraInfo>(_controller.GetCameras());
             if (Cameras.Any())
+            {
                 SelectedCamera = Cameras[0];
+                _controller.SelectCamera(SelectedCamera.Index);
+            }
+
+            RefreshModels();
+
+            var port = int.TryParse(Environment.GetEnvironmentVariable("AVALNERO_API_PORT"), out var p) ? p : 5050;
+            _apiHost.Start(port);
+            ApiUrl = $"http://localhost:{port}";
+            StatusMessage = "API запущен";
+
+            TryLoadFirstModel();
         }
 
-        private void OnNewFrame(Bitmap frame)
+        private void TryLoadFirstModel()
         {
-            Mat mat = frame.ToMat();
-            (string digit, float confidence) result;
-            try
+            if (Models.Count == 0)
             {
-                result = _predictor.Predict(mat);
-            }
-            catch
-            {
-                // Модель ещё не загружена или ошибка – просто пропускаем
+                StatusMessage = "Поместите *.zip модели в папку Ml_Model";
                 return;
             }
 
-            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            SelectedModel = Models[0];
+            LoadSelectedModel();
+        }
+
+        private void OnControllerStateChanged()
+        {
+            Avalonia.Threading.Dispatcher.UIThread.Post(SyncFromController);
+        }
+
+        private void SyncFromController()
+        {
+            IsCapturing = _controller.IsCapturing;
+            RecognizedDigit = _controller.RecognizedDigit;
+            Confidence = _controller.Confidence;
+            CurrentFrame = _controller.CurrentFrame;
+        }
+
+        [RelayCommand]
+        private void RefreshModels()
+        {
+            var models = _controller.GetModels();
+            Models = new ObservableCollection<ModelInfo>(models);
+
+            if (SelectedModel != null)
+                SelectedModel = Models.FirstOrDefault(m => m.Path == SelectedModel.Path) ?? SelectedModel;
+            else if (_controller.CurrentModelPath != null)
+                SelectedModel = Models.FirstOrDefault(m => m.IsLoaded);
+        }
+
+        [RelayCommand]
+        private void LoadSelectedModel()
+        {
+            if (SelectedModel == null)
             {
-                RecognizedDigit = result.digit;
-                Confidence = result.confidence;
-                CurrentFrame = frame;
-            });
+                StatusMessage = "Выберите модель";
+                return;
+            }
+
+            try
+            {
+                _controller.LoadModel(SelectedModel.Path);
+                StatusMessage = $"Модель загружена: {SelectedModel.Name}";
+                RefreshModels();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Ошибка загрузки модели: {ex.Message}";
+            }
         }
 
         [RelayCommand]
         private void StartCapture()
         {
             if (SelectedCamera == null) return;
-            _cameraService.StartCapture(SelectedCamera.Index);
-            IsCapturing = true;
+
+            try
+            {
+                _controller.StartCapture(SelectedCamera.Index);
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = ex.Message;
+            }
         }
 
         [RelayCommand]
         private void StopCapture()
         {
-            _cameraService.StopCapture();
-            IsCapturing = false;
-            CurrentFrame = null;
+            _controller.StopCapture();
         }
 
         partial void OnSelectedCameraChanged(CameraInfo? value)
         {
-            if (IsCapturing && value != null)
-                _cameraService.StartCapture(value.Index);
+            if (value != null)
+                _controller.SelectCamera(value.Index);
         }
 
-        // Команда выбора файла модели
         [RelayCommand]
         private async Task BrowseModel()
         {
-            // Получаем ссылку на текущее окно верхнего уровня
             var topLevel = TopLevel.GetTopLevel(App.Current?.ApplicationLifetime is
                 Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop
                 ? desktop.MainWindow
@@ -109,10 +167,8 @@ namespace AvalNeroSercher.ViewModels
 
             if (topLevel == null) return;
 
-            // Настраиваем фильтр для ZIP-файлов
             var fileTypes = new[] { new FilePickerFileType("ML.NET Model") { Patterns = new[] { "*.zip" } } };
 
-            // Открываем диалог выбора файла
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 Title = "Выберите файл модели",
@@ -120,42 +176,28 @@ namespace AvalNeroSercher.ViewModels
                 FileTypeFilter = fileTypes
             });
 
-            if (files.Count > 0)
-            {
-                // Получаем путь к выбранному файлу
-                ModelPath = files[0].Path.LocalPath;
-                LoadModelCommand.Execute(null);
-            }
-        }
+            if (files.Count == 0)
+                return;
 
-        // Команда загрузки модели по указанному пути
-        [RelayCommand]
-        private void LoadModel()
-        {
             try
             {
-                _predictor.LoadModel(ModelPath);
-                // Можно обновить статус или лог
+                _controller.LoadModel(files[0].Path.LocalPath);
+                StatusMessage = "Внешняя модель загружена";
+                RefreshModels();
             }
             catch (Exception ex)
             {
-                // Обработка ошибки: показать диалог
+                StatusMessage = $"Ошибка: {ex.Message}";
             }
-        }
-
-        partial void OnModelPathChanged(string value)
-        {
-            // Автоматически загружать модель при изменении пути? Лучше оставить отдельную кнопку.
         }
 
         public void Cleanup()
         {
             if (_disposed) return;
             _disposed = true;
-            _cameraService.NewFrame -= OnNewFrame;
-            StopCapture();
-            _cameraService.Dispose();
-            _predictor.Dispose();
+            _controller.StateChanged -= OnControllerStateChanged;
+            _controller.Dispose();
+            _apiHost.Dispose();
         }
     }
 }

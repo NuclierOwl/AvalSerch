@@ -5,7 +5,7 @@
         x:DataType="vm:MainViewModel"
         x:Class="AvalNeroSercher.Views.MainWindow"
         Title="Распознавание цифр с камеры"
-        Width="1000" Height="600">
+        Width="1000" Height="650">
 
     <Window.Resources>
         <converters:BitmapConverter x:Key="BitmapConverter" />
@@ -19,28 +19,58 @@
         </Border>
 
         <!-- Правая панель: управление -->
-        <StackPanel Grid.Column="1" Margin="20,10">
-            <TextBlock Text="Выбор камеры" FontWeight="Bold" Margin="0,0,0,5"/>
-            <ComboBox ItemsSource="{Binding Cameras}"
-                      SelectedItem="{Binding SelectedCamera}"
-                      IsEnabled="{Binding !IsCapturing}" />
+        <ScrollViewer Grid.Column="1" Margin="20,10">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Выбор камеры" FontWeight="Bold" />
+                <ComboBox ItemsSource="{Binding Cameras}"
+                          SelectedItem="{Binding SelectedCamera}"
+                          IsEnabled="{Binding !IsCapturing}" />
 
-            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Spacing="10">
-                <Button Content="▶ Старт"
-                        Command="{Binding StartCaptureCommand}"
-                        IsEnabled="{Binding !IsCapturing}" />
-                <Button Content="⏹ Стоп"
-                        Command="{Binding StopCaptureCommand}"
-                        IsEnabled="{Binding IsCapturing}" />
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0" Spacing="10">
+                    <Button Content="▶ Старт"
+                            Command="{Binding StartCaptureCommand}"
+                            IsEnabled="{Binding !IsCapturing}" />
+                    <Button Content="⏹ Стоп"
+                            Command="{Binding StopCaptureCommand}"
+                            IsEnabled="{Binding IsCapturing}" />
+                </StackPanel>
+
+                <Separator Margin="0,16" />
+
+                <TextBlock Text="Модель ML" FontWeight="Bold" />
+                <ComboBox ItemsSource="{Binding Models}"
+                          SelectedItem="{Binding SelectedModel}" />
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="Применить модель"
+                            Command="{Binding LoadSelectedModelCommand}" />
+                    <Button Content="Обновить список"
+                            Command="{Binding RefreshModelsCommand}" />
+                    <Button Content="Файл..."
+                            Command="{Binding BrowseModelCommand}" />
+                </StackPanel>
+
+                <Separator Margin="0,16" />
+
+                <TextBlock Text="Результат распознавания" FontWeight="Bold" />
+                <TextBlock FontSize="48"
+                           Text="{Binding RecognizedDigit}"
+                           Foreground="Green" />
+                <TextBlock Text="{Binding Confidence, StringFormat='Уверенность: {0:P1}'}" />
+
+                <Separator Margin="0,16" />
+
+                <TextBlock Text="Внешний API" FontWeight="Bold" />
+                <TextBlock Text="{Binding ApiUrl}" TextWrapping="Wrap" />
+                <TextBlock Text="GET /api/status, /api/cameras, /api/models"
+                           FontSize="11" Opacity="0.7" TextWrapping="Wrap" />
+                <TextBlock Text="POST /api/capture/start|stop, /api/models/load, /api/predict"
+                           FontSize="11" Opacity="0.7" TextWrapping="Wrap" />
+
+                <TextBlock Text="{Binding StatusMessage}"
+                           Margin="0,8,0,0"
+                           TextWrapping="Wrap"
+                           Opacity="0.8" />
             </StackPanel>
-
-            <Separator Margin="0,20" />
-
-            <TextBlock Text="Результат распознавания" FontWeight="Bold" />
-            <TextBlock FontSize="48"
-                       Text="{Binding RecognizedDigit}"
-                       Foreground="Green" />
-            <TextBlock Text="{Binding Confidence, StringFormat='Уверенность: {0:P1}'}" />
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

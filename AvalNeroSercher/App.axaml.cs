@@ -5,6 +5,7 @@ using AvalNeroSercher.ViewModels;
 using AvalNeroSercher.Views;
 using AvalNeroSercher.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace AvalNeroSercher;
 
@@ -21,8 +22,16 @@ public partial class App : Application
         {
             var services = new ServiceCollection();
             services.AddSingleton<CameraService>();
-            services.AddSingleton<Predictor>(_ =>
-                new Predictor("E:\\С++\\models\\Dise.zip")); // путь к модели
+            services.AddSingleton<ModelManager>();
+            services.AddSingleton<Predictor>(sp =>
+            {
+                var modelManager = sp.GetRequiredService<ModelManager>();
+                var initialModel = modelManager.RefreshModels()
+                    .FirstOrDefault()?.Path;
+                return new Predictor(initialModel);
+            });
+            services.AddSingleton<AppController>();
+            services.AddSingleton<ApiHostService>();
             services.AddSingleton<MainViewModel>();
 
             var provider = services.BuildServiceProvider();

@@ -19,13 +19,29 @@ namespace AvalNeroSercher.Services
         public List<CameraInfo> GetAvailableCameras()
         {
             var cameras = new List<CameraInfo>();
-            for (int i = 0; i < 10; i++) // проверяем первые 10 индексов
+            try
             {
-                using var cap = new VideoCapture(i);
-                if (cap.IsOpened)
+                for (int i = 0; i < 10; i++) // проверяем первые 10 индексов
                 {
-                    cameras.Add(new CameraInfo { Index = i, Name = $"Камера {i}" });
+                    try
+                    {
+                        using var cap = new VideoCapture(i);
+                        if (cap.IsOpened)
+                            cameras.Add(new CameraInfo { Index = i, Name = $"Камера {i}" });
+                    }
+                    catch
+                    {
+                        // индекс недоступен — пропускаем
+                    }
                 }
+            }
+            catch (DllNotFoundException)
+            {
+                // Нет нативных библиотек OpenCV (Emgu.CV.runtime.windows)
+            }
+            catch (TypeInitializationException)
+            {
+                // Emgu.CV не инициализировался
             }
             return cameras;
         }

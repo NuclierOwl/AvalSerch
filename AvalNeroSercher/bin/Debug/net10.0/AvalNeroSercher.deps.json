@@ -16,7 +16,7 @@
           "CommunityToolkit.Mvvm": "8.4.2",
           "Emgu.CV": "4.13.0.5924",
           "Emgu.CV.Bitmap": "4.13.0.5924",
-          "Microsoft.Extensions.DependencyInjection": "10.0.10",
+          "Emgu.CV.runtime.windows": "4.13.0.5924",
           "Microsoft.ML": "5.0.0",
           "Microsoft.ML.Vision": "5.0.0",
           "System.Drawing.Common": "10.0.10"
@@ -243,7 +243,6 @@
       },
       "AvaloniaUI.DiagnosticsSupport/2.2.1": {
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.IO.RecyclableMemoryStream": "3.0.1"
         },
         "runtime": {
@@ -278,6 +277,178 @@
           "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "assemblyVersion": "4.13.0.5924",
             "fileVersion": "4.13.0.5924"
+          }
+        }
+      },
+      "Emgu.CV.runtime.windows/4.13.0.5924": {
+        "dependencies": {
+          "Emgu.CV": "4.13.0.5924",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.44.35224",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.44.35224",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.44.35224"
+        },
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/cvextern.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "4.13.0.5924"
+          },
+          "runtimes/win-x64/native/cvextern.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "4.13.0.5924"
+          },
+          "runtimes/win-x64/native/libusb-1.0.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/opencv_videoio_ffmpeg4130_64.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "2025.12.0.0"
+          },
+          "runtimes/win-x86/native/cvextern.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "4.13.0.5924"
+          },
+          "runtimes/win-x86/native/libusb-1.0.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x86/native/opencv_videoio_ffmpeg4130.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "2025.12.0.0"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.44.35224": {
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/concrt140.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/msvcp140.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/msvcp140_1.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/msvcp140_2.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/msvcp140_atomic_wait.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/msvcp140_codecvt_ids.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/vcruntime140.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-arm64/native/vcruntime140_1.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.44.35224": {
+        "runtimeTargets": {
+          "runtimes/win-x64/native/concrt140.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/msvcp140.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/msvcp140_1.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/msvcp140_2.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/msvcp140_atomic_wait.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/msvcp140_codecvt_ids.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/vcruntime140.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x64/native/vcruntime140_1.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.44.35224": {
+        "runtimeTargets": {
+          "runtimes/win-x86/native/concrt140.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/msvcp140.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/msvcp140_1.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/msvcp140_2.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/msvcp140_atomic_wait.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/msvcp140_codecvt_ids.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
+          },
+          "runtimes/win-x86/native/vcruntime140.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "14.44.35211.0"
           }
         }
       },
@@ -424,36 +595,6 @@
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
             "assemblyVersion": "9.0.0.4",
             "fileVersion": "9.0.425.16305"
-          }
-        }
-      },
-      "Microsoft.Extensions.DependencyInjection/10.0.10": {
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.10"
-        },
-        "runtime": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.dll": {
-            "assemblyVersion": "10.0.0.0",
-            "fileVersion": "10.0.1026.32716"
-          }
-        }
-      },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.10": {
-        "runtime": {
-          "lib/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
-            "assemblyVersion": "10.0.0.0",
-            "fileVersion": "10.0.1026.32716"
-          }
-        }
-      },
-      "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.10"
-        },
-        "runtime": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
           }
         }
       },
@@ -982,6 +1123,34 @@
       "path": "emgu.cv.bitmap/4.13.0.5924",
       "hashPath": "emgu.cv.bitmap.4.13.0.5924.nupkg.sha512"
     },
+    "Emgu.CV.runtime.windows/4.13.0.5924": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J072mACLTy3R1Y5kqit4IM3LqMoz1g0szIr/MT+qJVOA3RTvwnfyCTTZ6tQnvZLfbvk58PoxZmaU1J6MraeKoQ==",
+      "path": "emgu.cv.runtime.windows/4.13.0.5924",
+      "hashPath": "emgu.cv.runtime.windows.4.13.0.5924.nupkg.sha512"
+    },
+    "Emgu.runtime.windows.msvc.rt.arm64/19.44.35224": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+805ha7RSJDZ437VekFsju55p4onRbT7as9nT6KHQdR72AQQ8rj3uFzMYu36zDB8hyq2xBWEXCTk4KJuO+rBug==",
+      "path": "emgu.runtime.windows.msvc.rt.arm64/19.44.35224",
+      "hashPath": "emgu.runtime.windows.msvc.rt.arm64.19.44.35224.nupkg.sha512"
+    },
+    "Emgu.runtime.windows.msvc.rt.x64/19.44.35224": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IMJsBnqobR4UM21vLNayY+8GlVRpgQHlRC1q6/iI1wbyejrEfWeWUyNVILj/tgmo8r0CgzOAJgR0jZcZGsPuNw==",
+      "path": "emgu.runtime.windows.msvc.rt.x64/19.44.35224",
+      "hashPath": "emgu.runtime.windows.msvc.rt.x64.19.44.35224.nupkg.sha512"
+    },
+    "Emgu.runtime.windows.msvc.rt.x86/19.44.35224": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-h8WzBTKDC3k34LOO4wkeHhq3ltpE3sbpk/2lOoKvTLKROJ/EcNqsYuGSwum8aYCeoMabucMqlbC/mV49uPng5Q==",
+      "path": "emgu.runtime.windows.msvc.rt.x86/19.44.35224",
+      "hashPath": "emgu.runtime.windows.msvc.rt.x86.19.44.35224.nupkg.sha512"
+    },
     "Google.Protobuf/3.30.2": {
       "type": "package",
       "serviceable": true,
@@ -1037,27 +1206,6 @@
       "sha512": "sha512-9VGI5kxIvrNG2mqLQZnUR6y/3fcnygD8eNpHR+CqfbnIXvea6nehnYknDKQTxZVPMpzpNca+7DxLBmpdB3q0Bw==",
       "path": "microsoft.bcl.asyncinterfaces/9.0.4",
       "hashPath": "microsoft.bcl.asyncinterfaces.9.0.4.nupkg.sha512"
-    },
-    "Microsoft.Extensions.DependencyInjection/10.0.10": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-ANyvsgkNBRvcJh2XLgn8veGmajf+8m0AbKK+HPWdRL1yraSNVVSmQhFntLtdz/C795jxqqup+k05cs/3jZQPOA==",
-      "path": "microsoft.extensions.dependencyinjection/10.0.10",
-      "hashPath": "microsoft.extensions.dependencyinjection.10.0.10.nupkg.sha512"
-    },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.10": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-z/2xXlFw2aLGjHyEm6E0tQ+In6VfzQzTrtArbQ2c0TQE16ZbyDCMGPvaUT9I0s8rgy9sRWlU2P9waW37qV04qA==",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/10.0.10",
-      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.10.0.10.nupkg.sha512"
-    },
-    "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-arDBqTgFCyS0EvRV7O3MZturChstm50OJ0y9bDJvAcmEPJm0FFpFyjU/JLYyStNGGey081DvnQYlncNX5SJJGA==",
-      "path": "microsoft.extensions.logging.abstractions/8.0.0",
-      "hashPath": "microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
     },
     "Microsoft.IO.RecyclableMemoryStream/3.0.1": {
       "type": "package",

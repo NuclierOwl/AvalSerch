@@ -11,12 +11,23 @@ namespace AvalNeroSercher.Services
     {
         private readonly object _lock = new();
         private PredictionEngine<ImageData, ModelOutput>? _engine;
-        private string _tempFile;
+        private readonly string _tempFile;
 
-        public Predictor(string initialModelPath)
+        public string? CurrentModelPath { get; private set; }
+
+        public Predictor(string? initialModelPath = null)
         {
             _tempFile = Path.Combine(Path.GetTempPath(), "digit_frame.png");
-            LoadModel(initialModelPath);
+            if (!string.IsNullOrWhiteSpace(initialModelPath) && File.Exists(initialModelPath))
+                LoadModel(initialModelPath);
+        }
+
+        public bool IsModelLoaded
+        {
+            get
+            {
+                lock (_lock) return _engine != null;
+            }
         }
 
         /// <summary>
@@ -35,10 +46,33 @@ namespace AvalNeroSercher.Services
             {
                 _engine?.Dispose();
                 _engine = newEngine;
+                CurrentModelPath = modelPath;
             }
         }
 
         public (string Digit, float Confidence) Predict(Mat frame)
+        {
+            using var bitmap = frame.ToImage<Bgr, byte>().ToBitmap();
+            return PredictFromBitmap(bitmap);
+        }
+
+        public (string Digit, float Confidence) PredictFromImagePath(string imagePath)
+        {
+            if (!File.Exists(imagePath))
+                throw new FileNotFoundException("Изображение не найдено", imagePath);
+
+            using var bitmap = new System.Drawing.Bitmap(imagePath);
+            return PredictFromBitmap(bitmap);
+        }
+
+        public (string Digit, float Confidence) PredictFromBytes(byte[] imageBytes)
+        {
+            using var stream = new MemoryStream(imageBytes);
+            using var bitmap = new System.Drawing.Bitmap(stream);
+            return PredictFromBitmap(bitmap);
+        }
+
+        private (string Digit, float Confidence) PredictFromBitmap(System.Drawing.Bitmap bitmap)
         {
             PredictionEngine<ImageData, ModelOutput> engine;
             lock (_lock)
@@ -46,7 +80,6 @@ namespace AvalNeroSercher.Services
                 engine = _engine ?? throw new InvalidOperationException("Модель не загружена");
             }
 
-            using var bitmap = frame.ToImage<Emgu.CV.Structure.Bgr, byte>().ToBitmap();
             bitmap.Save(_tempFile, System.Drawing.Imaging.ImageFormat.Png);
 
             var input = new ImageData { ImagePath = _tempFile, Label = "" };
@@ -62,6 +95,7 @@ namespace AvalNeroSercher.Services
             {
                 _engine?.Dispose();
                 _engine = null;
+                CurrentModelPath = null;
             }
         }
     }
@@ -69,15 +103,15 @@ namespace AvalNeroSercher.Services
     // Вспомогательные классы должны быть те же, что при обучении
     public class ImageData
     {
-        public string ImagePath { get; set; }
-        public string Label { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
     }
 
     public class ModelOutput
     {
-        public string ImagePath { get; set; }
-        public string Label { get; set; }
-        public string PredictedLabel { get; set; }
-        public float[] Score { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
+        public string PredictedLabel { get; set; } = string.Empty;
+        public float[] Score { get; set; } = Array.Empty<float>();
     }
 }
