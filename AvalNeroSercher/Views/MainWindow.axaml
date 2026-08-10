@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:AvalNeroSercher.Converters"
+        xmlns:vm="clr-namespace:AvalNeroSercher.ViewModels"
+        x:DataType="vm:MainViewModel"
+        x:Class="AvalNeroSercher.Views.MainWindow"
+        Title="Распознавание цифр с камеры"
+        Width="1000" Height="600">
+
+    <Window.Resources>
+        <converters:BitmapConverter x:Key="BitmapConverter" />
+    </Window.Resources>
+
+    <Grid ColumnDefinitions="2*,*" Margin="10">
+        <!-- Левая панель: видео -->
+        <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="5">
+            <Image Source="{Binding CurrentFrame, Converter={StaticResource BitmapConverter}}"
+                   Stretch="Uniform" />
+        </Border>
+
+        <!-- Правая панель: управление -->
+        <StackPanel Grid.Column="1" Margin="20,10">
+            <TextBlock Text="Выбор камеры" FontWeight="Bold" Margin="0,0,0,5"/>
+            <ComboBox ItemsSource="{Binding Cameras}"
+                      SelectedItem="{Binding SelectedCamera}"
+                      IsEnabled="{Binding !IsCapturing}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Spacing="10">
+                <Button Content="▶ Старт"
+                        Command="{Binding StartCaptureCommand}"
+                        IsEnabled="{Binding !IsCapturing}" />
+                <Button Content="⏹ Стоп"
+                        Command="{Binding StopCaptureCommand}"
+                        IsEnabled="{Binding IsCapturing}" />
+            </StackPanel>
+
+            <Separator Margin="0,20" />
+
+            <TextBlock Text="Результат распознавания" FontWeight="Bold" />
+            <TextBlock FontSize="48"
+                       Text="{Binding RecognizedDigit}"
+                       Foreground="Green" />
+            <TextBlock Text="{Binding Confidence, StringFormat='Уверенность: {0:P1}'}" />
+        </StackPanel>
+    </Grid>
+</Window>
