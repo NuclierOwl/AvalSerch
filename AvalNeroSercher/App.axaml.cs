@@ -32,6 +32,7 @@ public partial class App : Application
             });
             services.AddSingleton<AppController>();
             services.AddSingleton<ApiHostService>();
+            services.AddSingleton<LocalInteropService>();
             services.AddSingleton<MainViewModel>();
 
             var provider = services.BuildServiceProvider();

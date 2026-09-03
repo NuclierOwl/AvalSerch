@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rF4TOaDr3k4=",
+  "dgSpecHash": "jI+r/CPEUjA=",
   "success": true,
-  "projectFilePath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+  "projectFilePath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vende\\.nuget\\packages\\avalonia\\12.0.3\\avalonia.12.0.3.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.25547.20250602\\avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",
@@ -65,9 +65,9 @@
       "code": "NU1510",
       "level": "Warning",
       "message": "PackageReference Microsoft.Extensions.DependencyInjection не будет урезано. Рассмотрите возможность удаления этого пакета из зависимостей, так как он, вероятно, не требуется.",
-      "projectPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "projectPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "warningLevel": 1,
-      "filePath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "filePath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "libraryId": "Microsoft.Extensions.DependencyInjection",
       "targetGraphs": [
         "net10.0"

@@ -16,6 +16,7 @@ namespace AvalNeroSercher.ViewModels
     {
         private readonly AppController _controller;
         private readonly ApiHostService _apiHost;
+        private readonly LocalInteropService _localInterop;
         private bool _disposed;
 
         [ObservableProperty]
@@ -48,10 +49,17 @@ namespace AvalNeroSercher.ViewModels
         [ObservableProperty]
         private string _apiUrl = string.Empty;
 
-        public MainViewModel(AppController controller, ApiHostService apiHost)
+        [ObservableProperty]
+        private string _pipePath = string.Empty;
+
+        [ObservableProperty]
+        private string _bridgePath = string.Empty;
+
+        public MainViewModel(AppController controller, ApiHostService apiHost, LocalInteropService localInterop)
         {
             _controller = controller;
             _apiHost = apiHost;
+            _localInterop = localInterop;
 
             _controller.StateChanged += OnControllerStateChanged;
 
@@ -66,8 +74,12 @@ namespace AvalNeroSercher.ViewModels
 
             var port = int.TryParse(Environment.GetEnvironmentVariable("AVALNERO_API_PORT"), out var p) ? p : 5050;
             _apiHost.Start(port);
-            ApiUrl = $"http://localhost:{port}";
-            StatusMessage = "API запущен";
+            _localInterop.Start();
+
+            ApiUrl = $"http://127.0.0.1:{port}";
+            PipePath = _localInterop.PipePath;
+            BridgePath = _localInterop.BridgeDirectory;
+            StatusMessage = "Локальные каналы связи запущены";
 
             TryLoadFirstModel();
         }
@@ -198,6 +210,7 @@ namespace AvalNeroSercher.ViewModels
             _controller.StateChanged -= OnControllerStateChanged;
             _controller.Dispose();
             _apiHost.Dispose();
+            _localInterop.Dispose();
         }
     }
 }

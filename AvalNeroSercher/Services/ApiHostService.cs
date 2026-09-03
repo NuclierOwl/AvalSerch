@@ -1,11 +1,9 @@
+using AvalNeroSercher.Services.Interop;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,17 +12,16 @@ namespace AvalNeroSercher.Services;
 
 public class ApiHostService : IDisposable
 {
-    private readonly AppController _controller;
+    private readonly AppCommandHandler _handler;
     private WebApplication? _app;
     private Task? _runTask;
     private CancellationTokenSource? _cts;
 
     public int Port { get; private set; }
-    public bool IsRunning => _app != null;
 
     public ApiHostService(AppController controller)
     {
-        _controller = controller;
+        _handler = new AppCommandHandler(controller);
     }
 
     public void Start(int port = 5050)
@@ -36,7 +33,7 @@ public class ApiHostService : IDisposable
         _cts = new CancellationTokenSource();
 
         var builder = WebApplication.CreateBuilder();
-        builder.WebHost.UseUrls($"http://localhost:{port}");
+        builder.WebHost.UseUrls($"http://127.0.0.1:{port}");
 
         _app = builder.Build();
         _app.Use(async (context, next) =>
@@ -55,89 +52,31 @@ public class ApiHostService : IDisposable
         });
 
         MapRoutes(_app);
-
         _runTask = _app.RunAsync(_cts.Token);
     }
 
     private void MapRoutes(WebApplication app)
     {
-        app.MapGet("/api/status", () => Results.Json(_controller.GetStatus()));
-
-        app.MapGet("/api/cameras", () =>
-            Results.Json(_controller.GetCameras().Select(c => new { c.Index, c.Name })));
+        app.MapGet("/api/status", () => ToHttpResult(_handler.Handle(new LocalCommandRequest { Command = "status" })));
+        app.MapGet("/api/cameras", () => ToHttpResult(_handler.Handle(new LocalCommandRequest { Command = "cameras" })));
 
         app.MapPost("/api/camera/select", async (HttpRequest request) =>
-        {
-            var body = await ReadJsonAsync<SelectCameraRequest>(request);
-            if (body?.Index is not int index)
-                return Results.BadRequest(new { error = "Укажите index камеры" });
+            ToHttpResult(await HandleHttpCommandAsync(request, "camera/select")));
 
-            _controller.SelectCamera(index);
-            return Results.Json(new { selectedCameraIndex = index });
-        });
-
-        app.MapPost("/api/capture/start", (SelectCameraRequest? body) =>
-        {
-            try
-            {
-                _controller.StartCapture(body?.Index);
-                return Results.Json(new { isCapturing = true });
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(new { error = ex.Message });
-            }
-        });
+        app.MapPost("/api/capture/start", async (HttpRequest request) =>
+            ToHttpResult(await HandleHttpCommandAsync(request, "capture/start")));
 
         app.MapPost("/api/capture/stop", () =>
-        {
-            _controller.StopCapture();
-            return Results.Json(new { isCapturing = false });
-        });
+            ToHttpResult(_handler.Handle(new LocalCommandRequest { Command = "capture/stop" })));
 
         app.MapGet("/api/models", () =>
-            Results.Json(_controller.GetModels().Select(m => new
-            {
-                m.Name,
-                m.Path,
-                m.IsLoaded
-            })));
+            ToHttpResult(_handler.Handle(new LocalCommandRequest { Command = "models" })));
 
         app.MapPost("/api/models/refresh", () =>
-            Results.Json(_controller.GetModels().Select(m => new
-            {
-                m.Name,
-                m.Path,
-                m.IsLoaded
-            })));
+            ToHttpResult(_handler.Handle(new LocalCommandRequest { Command = "models/refresh" })));
 
         app.MapPost("/api/models/load", async (HttpRequest request) =>
-        {
-            var body = await ReadJsonAsync<LoadModelRequest>(request);
-            if (body == null)
-                return Results.BadRequest(new { error = "Пустое тело запроса" });
-
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(body.Name))
-                    _controller.LoadModelByName(body.Name);
-                else if (!string.IsNullOrWhiteSpace(body.Path))
-                    _controller.LoadModel(body.Path!);
-                else
-                    return Results.BadRequest(new { error = "Укажите name или path" });
-
-                return Results.Json(new
-                {
-                    loaded = true,
-                    modelName = _controller.CurrentModelName,
-                    modelPath = _controller.CurrentModelPath
-                });
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(new { error = ex.Message });
-            }
-        });
+            ToHttpResult(await HandleHttpCommandAsync(request, "models/load")));
 
         app.MapPost("/api/predict", async (HttpRequest request) =>
         {
@@ -149,46 +88,56 @@ public class ApiHostService : IDisposable
                     await using var stream = file.OpenReadStream();
                     using var memory = new MemoryStream();
                     await stream.CopyToAsync(memory);
-                    var result = _controller.PredictFromBytes(memory.ToArray());
-                    return Results.Json(new
+                    return ToHttpResult(_handler.Handle(new LocalCommandRequest
                     {
-                        digit = result.Digit,
-                        confidence = result.Confidence,
-                        modelName = _controller.CurrentModelName
-                    });
+                        Command = "predict",
+                        Data = JsonSerializer.SerializeToElement(new
+                        {
+                            imageBase64 = Convert.ToBase64String(memory.ToArray())
+                        })
+                    }));
                 }
 
-                var body = await ReadJsonAsync<PredictPathRequest>(request);
-                if (body?.Path is not string path || string.IsNullOrWhiteSpace(path))
-                    return Results.BadRequest(new { error = "Передайте файл (multipart) или JSON { \"path\": \"...\" }" });
-
-                var fileResult = _controller.PredictFromFile(path);
-                return Results.Json(new
-                {
-                    digit = fileResult.Digit,
-                    confidence = fileResult.Confidence,
-                    modelName = _controller.CurrentModelName
-                });
+                return ToHttpResult(await HandleHttpCommandAsync(request, "predict"));
             }
             catch (Exception ex)
             {
                 return Results.BadRequest(new { error = ex.Message });
             }
         });
+
+        app.MapPost("/api/command", async (HttpRequest request) =>
+            ToHttpResult(await HandleHttpCommandAsync(request, null)));
     }
 
-    private static async Task<T?> ReadJsonAsync<T>(HttpRequest request)
+    private async Task<LocalCommandResponse> HandleHttpCommandAsync(HttpRequest request, string? command)
     {
         using var reader = new StreamReader(request.Body);
         var json = await reader.ReadToEndAsync();
-        if (string.IsNullOrWhiteSpace(json))
-            return default;
 
-        return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return _handler.Handle(new LocalCommandRequest { Command = command ?? string.Empty });
+        }
+
+        var parsed = JsonSerializer.Deserialize<LocalCommandRequest>(json, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         });
+
+        if (parsed == null)
+            return new LocalCommandResponse { Success = false, Error = "Некорректный JSON" };
+
+        if (!string.IsNullOrWhiteSpace(command))
+            parsed.Command = command;
+
+        return _handler.Handle(parsed);
     }
+
+    private static IResult ToHttpResult(LocalCommandResponse response) =>
+        response.Success
+            ? Results.Json(response.Data)
+            : Results.BadRequest(new { error = response.Error });
 
     public void Dispose()
     {
@@ -197,20 +146,4 @@ public class ApiHostService : IDisposable
         _app?.DisposeAsync().AsTask().GetAwaiter().GetResult();
         _cts?.Dispose();
     }
-}
-
-public class SelectCameraRequest
-{
-    public int? Index { get; set; }
-}
-
-public class LoadModelRequest
-{
-    public string? Name { get; set; }
-    public string? Path { get; set; }
-}
-
-public class PredictPathRequest
-{
-    public string? Path { get; set; }
 }

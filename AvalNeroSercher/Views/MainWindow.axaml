@@ -59,12 +59,15 @@
 
                 <Separator Margin="0,16" />
 
-                <TextBlock Text="Внешний API" FontWeight="Bold" />
+                <TextBlock Text="Локальное взаимодействие (офлайн)" FontWeight="Bold" />
+                <TextBlock Text="HTTP:" FontSize="11" Opacity="0.8" />
                 <TextBlock Text="{Binding ApiUrl}" TextWrapping="Wrap" />
-                <TextBlock Text="GET /api/status, /api/cameras, /api/models"
-                           FontSize="11" Opacity="0.7" TextWrapping="Wrap" />
-                <TextBlock Text="POST /api/capture/start|stop, /api/models/load, /api/predict"
-                           FontSize="11" Opacity="0.7" TextWrapping="Wrap" />
+                <TextBlock Text="Named Pipe:" FontSize="11" Opacity="0.8" Margin="0,6,0,0" />
+                <TextBlock Text="{Binding PipePath}" TextWrapping="Wrap" />
+                <TextBlock Text="File Bridge:" FontSize="11" Opacity="0.8" Margin="0,6,0,0" />
+                <TextBlock Text="{Binding BridgePath}" TextWrapping="Wrap" FontSize="11" />
+                <TextBlock Text="POST /api/command — универсальный JSON-запрос"
+                           FontSize="11" Opacity="0.7" TextWrapping="Wrap" Margin="0,4,0,0" />
 
                 <TextBlock Text="{Binding StatusMessage}"
                            Margin="0,8,0,0"
