@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj": {}
+    "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj": {}
   },
   "projects": {
-    "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj": {
+    "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+        "projectUniqueName": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
         "projectName": "AvalNeroSercher",
-        "projectPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+        "projectPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
         "packagesPath": "C:\\Users\\vende\\.nuget\\packages\\",
-        "outputPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\obj\\",
+        "outputPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vende\\AppData\\Roaming\\NuGet\\NuGet.Config"

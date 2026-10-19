@@ -32,8 +32,9 @@ public class ApiHostService : IDisposable
         Port = port;
         _cts = new CancellationTokenSource();
 
+        var host = Environment.GetEnvironmentVariable("AVALNERO_API_HOST") ?? "127.0.0.1";
         var builder = WebApplication.CreateBuilder();
-        builder.WebHost.UseUrls($"http://127.0.0.1:{port}");
+        builder.WebHost.UseUrls($"http://{host}:{port}");
 
         _app = builder.Build();
         _app.Use(async (context, next) =>
@@ -52,7 +53,7 @@ public class ApiHostService : IDisposable
         });
 
         MapRoutes(_app);
-        _runTask = _app.RunAsync(_cts.Token);
+        _runTask = _app.RunAsync();
     }
 
     private void MapRoutes(WebApplication app)

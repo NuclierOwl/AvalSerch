@@ -1,34 +1,6 @@
 is_global = true
-build_property.AvaloniaNameGeneratorIsEnabled = true
-build_property.AvaloniaNameGeneratorBehavior = InitializeComponent
-build_property.AvaloniaNameGeneratorDefaultFieldModifier = internal
-build_property.AvaloniaNameGeneratorFilterByPath = *
-build_property.AvaloniaNameGeneratorFilterByNamespace = *
-build_property.AvaloniaNameGeneratorViewFileNamingStrategy = NamespaceAndClassName
-build_property.AvaloniaNameGeneratorAttachDevTools = true
-build_property.TargetFramework = net10.0
 build_property.TargetFramework = net10.0
 build_property.TargetFrameworkIdentifier = .NETCoreApp
-build_property.TargetFrameworkIdentifier = .NETCoreApp
-build_property.RuntimeIdentifier = 
-build_property.AppHostRuntimeIdentifier = win-x64
-build_property.DefaultAppHostRuntimeIdentifier = win-x64
-build_property.NETCoreSdkPortableRuntimeIdentifier = win-x64
-build_property.IsTestProject = 
-build_property.ProjectAssetsFile = e:\С++\Projects\AvalNeroSercher\AvalNeroSercher\obj\project.assets.json
-build_property.ProjectDepsFilePath = e:\С++\Projects\AvalNeroSercher\AvalNeroSercher\bin\Debug\net10.0\AvalNeroSercher.deps.json
-build_property.ProjectRuntimeConfigFilePath = e:\С++\Projects\AvalNeroSercher\AvalNeroSercher\bin\Debug\net10.0\AvalNeroSercher.runtimeconfig.json
-build_property.IntermediateOutputPath = obj\Debug\net10.0\
-build_property.PublishDir = bin\Debug\net10.0\publish\
-build_property.AvaloniaMainPackageVersion = 12.0.3
-build_property.HasAvaloniaDiagnosticsSupport = true
-build_property.AvaloniaUseCompiledBindingsByDefault = true
-build_property.AvaloniaPreviewerNetCoreToolPath = C:\Users\vende\.nuget\packages\avalonia\12.0.3\buildTransitive\\..\tools\net8.0\designer\Avalonia.Designer.HostApp.dll
-build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
-build_property._MvvmToolkitIsUsingWindowsRuntimePack = false
-build_property.CsWinRTComponent = 
-build_property.CsWinRTAotOptimizerEnabled = 
-build_property.CsWinRTAotWarningLevel = 
 build_property.TargetFrameworkVersion = v10.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = 
@@ -39,14 +11,8 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EntryPointFilePath = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AvalNeroSercher
-build_property.ProjectDir = e:\С++\Projects\AvalNeroSercher\AvalNeroSercher\
+build_property.ProjectDir = E:\С++\Projects\AvalNeroSercher\AvalNeroSercher\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
-
-[e:/С++/Projects/AvalNeroSercher/AvalNeroSercher/App.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-
-[e:/С++/Projects/AvalNeroSercher/AvalNeroSercher/Views/MainWindow.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

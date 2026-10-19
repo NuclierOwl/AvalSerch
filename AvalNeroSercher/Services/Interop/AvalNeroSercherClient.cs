@@ -29,7 +29,7 @@ public static class AvalNeroSercherClient
         using var writer = new StreamWriter(client, new UTF8Encoding(false), leaveOpen: true) { AutoFlush = true };
         using var reader = new StreamReader(client, Encoding.UTF8, leaveOpen: true);
 
-        await writer.WriteLineAsync(JsonSerializer.Serialize(request), cancellationToken);
+        await writer.WriteLineAsync(JsonSerializer.Serialize(request).AsMemory(), cancellationToken);
         var responseJson = await reader.ReadLineAsync(cancellationToken);
 
         return JsonSerializer.Deserialize<LocalCommandResponse>(responseJson ?? "{}", JsonOptions)

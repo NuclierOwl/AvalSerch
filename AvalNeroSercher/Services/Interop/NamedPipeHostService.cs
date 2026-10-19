@@ -68,7 +68,7 @@ public class NamedPipeHostService : IDisposable
 
         var requestJson = await reader.ReadLineAsync(token);
         var response = _handler.HandleJson(requestJson ?? string.Empty);
-        await writer.WriteLineAsync(JsonSerializer.Serialize(response), token);
+        await writer.WriteLineAsync(JsonSerializer.Serialize(response).AsMemory(), token);
     }
 
     public void Dispose()

@@ -1,0 +1,15 @@
+services:
+  avalnero-searcher:
+    build: .
+    image: avalnero-searcher
+    ports:
+      - "5050:5050"
+    environment:
+      AVALNERO_API_HOST: "0.0.0.0"
+      AVALNERO_API_PORT: "5050"
+    volumes:
+      - ./AvalNeroSercher/Ml_Model:/app/Ml_Model
+    # Раскомментируйте на Linux, если нужна камера:
+    # devices:
+    #   - /dev/video0:/dev/video0
+    restart: unless-stopped

@@ -73,10 +73,11 @@ namespace AvalNeroSercher.ViewModels
             RefreshModels();
 
             var port = int.TryParse(Environment.GetEnvironmentVariable("AVALNERO_API_PORT"), out var p) ? p : 5050;
+            var listenHost = Environment.GetEnvironmentVariable("AVALNERO_API_HOST") ?? "127.0.0.1";
             _apiHost.Start(port);
             _localInterop.Start();
 
-            ApiUrl = $"http://127.0.0.1:{port}";
+            ApiUrl = $"http://{(listenHost is "0.0.0.0" or "*" ? "127.0.0.1" : listenHost)}:{port}";
             PipePath = _localInterop.PipePath;
             BridgePath = _localInterop.BridgeDirectory;
             StatusMessage = "Локальные каналы связи запущены";
