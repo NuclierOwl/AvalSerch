@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rF4TOaDr3k4=",
+  "dgSpecHash": "Hw1r5JPMhX4=",
   "success": true,
-  "projectFilePath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+  "projectFilePath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vende\\.nuget\\packages\\avalonia\\12.0.3\\avalonia.12.0.3.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.25547.20250602\\avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",
@@ -22,6 +22,7 @@
     "C:\\Users\\vende\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.2\\communitytoolkit.mvvm.8.4.2.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\emgu.cv\\4.13.0.5924\\emgu.cv.4.13.0.5924.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\emgu.cv.bitmap\\4.13.0.5924\\emgu.cv.bitmap.4.13.0.5924.nupkg.sha512",
+    "C:\\Users\\vende\\.nuget\\packages\\emgu.cv.runtime.ubuntu-24.04-x64\\4.13.0.5924\\emgu.cv.runtime.ubuntu-24.04-x64.4.13.0.5924.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\emgu.cv.runtime.windows\\4.13.0.5924\\emgu.cv.runtime.windows.4.13.0.5924.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\emgu.runtime.windows.msvc.rt.arm64\\19.44.35224\\emgu.runtime.windows.msvc.rt.arm64.19.44.35224.nupkg.sha512",
     "C:\\Users\\vende\\.nuget\\packages\\emgu.runtime.windows.msvc.rt.x64\\19.44.35224\\emgu.runtime.windows.msvc.rt.x64.19.44.35224.nupkg.sha512",
@@ -64,10 +65,10 @@
     {
       "code": "NU1510",
       "level": "Warning",
-      "message": "PackageReference Microsoft.Extensions.DependencyInjection не будет урезано. Рассмотрите возможность удаления этого пакета из зависимостей, так как он, вероятно, не требуется.",
-      "projectPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "message": "PackageReference Microsoft.Extensions.DependencyInjection will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "warningLevel": 1,
-      "filePath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "filePath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "libraryId": "Microsoft.Extensions.DependencyInjection",
       "targetGraphs": [
         "net10.0"

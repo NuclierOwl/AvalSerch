@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AvalNeroSercher")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1e12b02cfc658c14c2cc5b9dbf8740ec3b8965f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc652eb835dda8109ff1a5cab06a17c7f5b73d7f")]
 [assembly: System.Reflection.AssemblyProductAttribute("AvalNeroSercher")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AvalNeroSercher")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -376,6 +376,21 @@
           }
         }
       },
+      "Emgu.CV.runtime.ubuntu-24.04-x64/4.13.0.5924": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.13.0.5924"
+        },
+        "build": {
+          "build/Emgu.CV.runtime.ubuntu-24.04-x64.props": {}
+        },
+        "runtimeTargets": {
+          "runtimes/ubuntu-x64/native/libcvextern.so": {
+            "assetType": "native",
+            "rid": "ubuntu-x64"
+          }
+        }
+      },
       "Emgu.CV.runtime.windows/4.13.0.5924": {
         "type": "package",
         "dependencies": {
@@ -1742,6 +1757,23 @@
         "nuget_icon.png"
       ]
     },
+    "Emgu.CV.runtime.ubuntu-24.04-x64/4.13.0.5924": {
+      "sha512": "bdnXZ9gDaHijacBX0Anag+sSlFrNnCGwBAGoFKo/ecTa6QORg0CVI8uyKuzhANV37K6Q9T5835rta7ZvZdBb+Q==",
+      "type": "package",
+      "path": "emgu.cv.runtime.ubuntu-24.04-x64/4.13.0.5924",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "build/Emgu.CV.runtime.ubuntu-24.04-x64.props",
+        "docs/README.md",
+        "docs/ubuntu_x64_24.04_version_string.inc",
+        "emgu.cv.runtime.ubuntu-24.04-x64.4.13.0.5924.nupkg.sha512",
+        "emgu.cv.runtime.ubuntu-24.04-x64.nuspec",
+        "nuget_icon.png",
+        "runtimes/ubuntu-x64/native/libcvextern.so"
+      ]
+    },
     "Emgu.CV.runtime.windows/4.13.0.5924": {
       "sha512": "J072mACLTy3R1Y5kqit4IM3LqMoz1g0szIr/MT+qJVOA3RTvwnfyCTTZ6tQnvZLfbvk58PoxZmaU1J6MraeKoQ==",
       "type": "package",
@@ -2825,6 +2857,7 @@
       "CommunityToolkit.Mvvm >= 8.4.2",
       "Emgu.CV >= 4.13.0.5924",
       "Emgu.CV.Bitmap >= 4.13.0.5924",
+      "Emgu.CV.runtime.ubuntu-24.04-x64 >= 4.13.0.5924",
       "Emgu.CV.runtime.windows >= 4.13.0.5924",
       "Microsoft.Extensions.DependencyInjection >= 10.0.10",
       "Microsoft.ML >= 5.0.0",
@@ -2838,11 +2871,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "projectUniqueName": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "projectName": "AvalNeroSercher",
-      "projectPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
+      "projectPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\AvalNeroSercher.csproj",
       "packagesPath": "C:\\Users\\vende\\.nuget\\packages\\",
-      "outputPath": "e:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\obj\\",
+      "outputPath": "E:\\С++\\Projects\\AvalNeroSercher\\AvalNeroSercher\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vende\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2906,6 +2939,10 @@
             "version": "[4.13.0.5924, )"
           },
           "Emgu.CV.Bitmap": {
+            "target": "Package",
+            "version": "[4.13.0.5924, )"
+          },
+          "Emgu.CV.runtime.ubuntu-24.04-x64": {
             "target": "Package",
             "version": "[4.13.0.5924, )"
           },
@@ -3372,7 +3409,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference Microsoft.Extensions.DependencyInjection не будет урезано. Рассмотрите возможность удаления этого пакета из зависимостей, так как он, вероятно, не требуется.",
+      "message": "PackageReference Microsoft.Extensions.DependencyInjection will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "Microsoft.Extensions.DependencyInjection",
       "targetGraphs": [
         "net10.0"
